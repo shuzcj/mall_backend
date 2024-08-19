@@ -24,3 +24,4 @@ public class MallBackend0Application {
         test.sayHello();
     }
 }
+
