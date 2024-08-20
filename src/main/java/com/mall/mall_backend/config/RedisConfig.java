@@ -71,3 +71,22 @@ With Custom Configuration: When you define a RedisTemplate bean with custom sett
 English Summary:
 When you define a RedisTemplate bean in a Spring @Configuration class, you are effectively telling Spring how to configure and use Redis in your application. This custom configuration overrides the default auto-configuration provided by Spring Boot. The Spring application context manages these beans and ensures your custom-configured RedisTemplate is used throughout your application instead of the default one.
  */
+
+
+
+
+/*
+Cookie:
+
+Storage: Stored in the browser's cookie storage.
+Transmission: Automatically sent with every request by the browser.
+Security: Vulnerable to CSRF attacks since it's automatically included in requests.
+Stateful: Typically used in traditional, stateful authentication where the server maintains session state.
+Token:
+
+Storage: Typically stored in localStorage, sessionStorage, or manually handled in headers.
+Transmission: Manually sent via HTTP headers (e.g., Authorization) or request parameters.
+Security: More secure against CSRF; however, requires protection against XSS attacks.
+Stateless: Ideal for modern, stateless authentication in distributed systems (e.g., JWT).
+Summary: Tokens offer more flexibility, security, and scalability for modern web applications, while cookies are simpler but less secure for stateful authentication.
+ */
