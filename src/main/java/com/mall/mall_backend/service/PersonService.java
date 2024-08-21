@@ -1,8 +1,8 @@
 package com.mall.mall_backend.service;
 
 import com.mall.mall_backend.dao.UserLogInDao;
-import com.mall.mall_backend.domain.Person;
-import com.mall.mall_backend.entity.User;
+import com.mall.mall_backend.domain.temporary.Person;
+import com.mall.mall_backend.domain.entity.User;
 import com.mall.mall_backend.utils.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

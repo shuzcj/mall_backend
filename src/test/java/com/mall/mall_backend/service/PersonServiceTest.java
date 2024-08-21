@@ -1,6 +1,6 @@
 package com.mall.mall_backend.service;
 
-import com.mall.mall_backend.domain.Person;
+import com.mall.mall_backend.domain.temporary.Person;
 import com.mall.mall_backend.utils.RedisCache;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -8,4 +8,8 @@
     <select id="getFirstUser" resultType="user">
         SELECT * FROM user LIMIT 1
     </select>
+
+    <select id="getUserByUserName" resultType="com.mall.mall_backend.domain.entity.User">
+        SELECT * FROM user WHERE user_name = #{username} LIMIT 1
+    </select>
 </mapper>

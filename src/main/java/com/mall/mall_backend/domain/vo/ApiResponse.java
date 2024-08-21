@@ -1,4 +1,4 @@
-package com.mall.mall_backend.domain;
+package com.mall.mall_backend.domain.vo;
 
 public class ApiResponse<T> {
 

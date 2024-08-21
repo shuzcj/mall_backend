@@ -1,4 +1,4 @@
-package com.mall.mall_backend.entity;
+package com.mall.mall_backend.domain.entity;
 
 import javax.persistence.*;
 
