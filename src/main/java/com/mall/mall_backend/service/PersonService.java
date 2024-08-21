@@ -1,6 +1,8 @@
 package com.mall.mall_backend.service;
 
+import com.mall.mall_backend.dao.UserLogInDao;
 import com.mall.mall_backend.domain.Person;
+import com.mall.mall_backend.entity.User;
 import com.mall.mall_backend.utils.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,4 +24,14 @@ public class PersonService {
         String key = PERSON_KEY_PREFIX + name;
         return redisCache.getCacheObject(key);
     }
+
+    @Autowired
+    private UserLogInDao userLogInDao;
+
+    public void searchUser(){
+        User user = userLogInDao.getFirstUser();
+        System.out.println(user);
+    }
+
+
 }

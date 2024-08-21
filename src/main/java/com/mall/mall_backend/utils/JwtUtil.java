@@ -20,7 +20,7 @@ public class JwtUtil {
     //有效期为
     public static final Long JWT_TTL = 60 * 60 *1000L;// 60 * 60 *1000  一个小时
     //设置秘钥明文
-    public static final String JWT_KEY = "zcjjj";
+    public static final String JWT_KEY = "zcjjjj";//even length,encoded base64 string, all consist of ascii
 
     public static String getUUID(){
         String token = UUID.randomUUID().toString().replaceAll("-", "");
@@ -86,7 +86,7 @@ public class JwtUtil {
 
     public static void main(String[] args) throws Exception {
         //jwt加密
-        String jwt = createJWT("123456");
+        String jwt = createJWT("userid");
 
         //jwt解密
         Claims claims = parseJWT(jwt);
