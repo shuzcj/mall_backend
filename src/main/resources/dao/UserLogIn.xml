@@ -5,11 +5,16 @@
 
 <mapper namespace="com.mall.mall_backend.dao.UserLogInDao">
     <!-- 查询第一条用户记录 -->
-    <select id="getFirstUser" resultType="user">
+    <select id="getFirstUser" resultType="com.mall.mall_backend.domain.entity.User">
         SELECT * FROM user LIMIT 1
     </select>
 
     <select id="getUserByUserName" resultType="com.mall.mall_backend.domain.entity.User">
         SELECT * FROM user WHERE user_name = #{username} LIMIT 1
     </select>
+
+    <!-- 插入用户信息到数据库 -->
+    <insert id="registerUser" parameterType="com.mall.mall_backend.domain.entity.User">
+        INSERT INTO user (user_name, pass_word,type) VALUES (#{userName}, #{passWord},#{type})
+    </insert>
 </mapper>

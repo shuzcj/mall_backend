@@ -18,11 +18,16 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String userName, String passWord, char type) {
-        this.id = id;
+    public User(String userName, String passWord, char type) {
         this.userName = userName;
         this.passWord = passWord;
         this.type = type;
+    }
+
+    public User(String userName, String passWord) {
+        this.userName = userName;
+        this.passWord = passWord;
+
     }
 
     /**

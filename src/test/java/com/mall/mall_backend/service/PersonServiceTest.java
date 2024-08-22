@@ -1,6 +1,8 @@
 package com.mall.mall_backend.service;
 
+import com.mall.mall_backend.domain.entity.User;
 import com.mall.mall_backend.domain.temporary.Person;
+import com.mall.mall_backend.service.impl.PersonService;
 import com.mall.mall_backend.utils.RedisCache;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,6 +47,16 @@ public class PersonServiceTest {
     @Test
     public void testSearchUser(){
         personService.searchUser();
+    }
+
+    @Autowired
+    LogInService logInService ;
+
+    @Test
+    public void testLogIn(){
+
+        //logInService.register(new User("test1","123456",'1'));
+        logInService.login(new User("test1","123456"));
     }
 
 }

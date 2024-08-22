@@ -1,4 +1,4 @@
-package com.mall.mall_backend.service;
+package com.mall.mall_backend.service.impl;
 
 import com.mall.mall_backend.dao.UserLogInDao;
 import com.mall.mall_backend.domain.temporary.Person;

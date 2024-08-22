@@ -8,4 +8,6 @@ public interface UserLogInDao {
     User getFirstUser();
 
     User getUserByUserName(String username);
+
+    void registerUser(User user);
 }

@@ -3,6 +3,7 @@ package com.mall.mall_backend.service.impl;
 import com.mall.mall_backend.dao.UserLogInDao;
 import com.mall.mall_backend.domain.entity.User;
 import com.mall.mall_backend.domain.sercurity.LoginUser;
+import com.mall.mall_backend.exception.LoginFailedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,6 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private UserLogInDao userLogInDao;
 
     //实现UserDetailsService接口，重写UserDetails方法，自定义用户的信息从数据中查询
+    //The loadUserByUsername method is called within the retrieveUser method of DaoAuthenticationProvider:
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
@@ -31,10 +33,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         //如果没有查询到用户
         if (Objects.isNull(user)) {
-            throw new RuntimeException("用户名或者密码错误");
+            throw new LoginFailedException(LoginFailedException.Reason.USERNAME_NOT_FOUND);
         }
-
-        // TODO (授权，即查询用户具有哪些权限)查询对应的用户信息
 
         //把数据封装成UserDetails返回
         return new LoginUser(user);

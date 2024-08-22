@@ -24,7 +24,7 @@ server:
 mybatis:
   mapper-locations:
     - classpath:dao/*.xml
-  type-aliases-package: com.mall.mall_backend.entity
+  type-aliases-package: com.mall.mall_backend.domain.entity
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  #日志级别输出sql
     map-underscore-to-camel-case: true   #驼峰下划线转换
