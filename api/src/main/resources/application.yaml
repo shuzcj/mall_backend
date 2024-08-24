@@ -1,0 +1,38 @@
+logging:
+  level:
+    com.mall.api.client: debug
+server:
+  port: 8083
+
+
+spring:
+  datasource:
+    druid:
+      url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf-8&useSSL=true
+      username: root
+      password: 123456
+      driver-class-name: com.mysql.cj.jdbc.Driver
+
+  redis:
+    host: localhost         # The hostname or IP address of the Redis server. 'localhost' refers to the local machine (127.0.0.1).
+    port: 6379              # The port on which the Redis server is listening. 6379 is the default port for Redis.
+    password:        # The password used to authenticate with the Redis server. This should match the password configured in Redis.
+    timeout: 2000           # The connection timeout in milliseconds (2000ms = 2 seconds). This is the maximum time the client will wait for a response from the Redis server.
+    lettuce:                # Lettuce is the Redis client used by Spring Boot. This section configures the connection pool settings for Lettuce.
+      pool:
+        max-active: 8       # Maximum number of active connections in the pool. These are the connections that can be used simultaneously.
+        max-idle: 8         # Maximum number of idle connections in the pool. These are the connections that are open but not currently being used.
+        min-idle: 0         # Minimum number of idle connections in the pool. The pool will try to maintain at least this many idle connections.
+        max-wait: -1ms      # Maximum time (in milliseconds) the client will wait for a connection to become available when the pool is exhausted. -1ms means to wait indefinitely.
+
+  application:
+    name: auth_server # 服务名称
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848 # nacos地址
+
+feign:
+  okhttp:
+    enabled: true # 开启OKHttp功能
+
+
