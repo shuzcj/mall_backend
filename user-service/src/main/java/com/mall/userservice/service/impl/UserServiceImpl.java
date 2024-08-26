@@ -27,9 +27,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String login(LoginRequest loginRequest) {
+        System.out.println(loginRequest.getUsername());
+        System.out.println(loginRequest.getPassword());
         // 查询用户信息
-        User user = userDao.getUserByUserNameAndPassword(loginRequest.getUsername(), loginRequest.getPassword());
-
+        User user = userDao.getUserByUserName(loginRequest.getUsername());
+        System.out.println(user);
         // 如果用户不存在，抛出异常
         if (user == null) {
             throw new LoginFailedException("用户名或密码错误");

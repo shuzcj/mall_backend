@@ -19,8 +19,8 @@ public class test {
 
     @Test
     public void testSaveAndRetrievePerson() {
-        RegisterRequest registerRequest = new RegisterRequest("test2", "test", '1');
-        User user = new User("test", "test", '1');
+        RegisterRequest registerRequest = new RegisterRequest("a", "a", '1');
+
         userService.register(registerRequest);
     }
 

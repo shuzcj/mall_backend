@@ -7,6 +7,22 @@ spring:
   main:
     web-application-type: reactive # 指定应用类型为响应式,gateway 需要这个，否则报错
 
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848 # nacos地址
+    gateway:
+      default-filters:
+        - PrintAny # 此处直接以自定义的GatewayFilterFactory类名称前缀类声明过滤器
+      routes:
+        - id: search # 路由规则id，自定义，唯一
+          uri: lb://search-service # 路由的目标服务，lb代表负载均衡，会从注册中心拉取服务列表
+          predicates: # 路由断言，判断当前请求是否符合当前规则，符合则路由到目标服务
+            - Path=/search/** # 这里是以请求路径作为判断规则
+        - id: user # 路由规则id，自定义，唯一
+          uri: lb://user-service # 路由的目标服务，lb代表负载均衡，会从注册中心拉取服务列表
+          predicates: # 路由断言，判断当前请求是否符合当前规则，符合则路由到目标服务
+            - Path=/user/** # 这里是以请求路径作为判断规则
+
 
 server:
   port: 8080  # Specific to the Auth server

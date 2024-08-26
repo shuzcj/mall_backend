@@ -23,10 +23,7 @@
         SELECT COUNT(*) FROM user WHERE user_name = #{username}
     </select>
 
-    <!-- 根据用户名和密码查询用户 -->
-    <select id="getUserByUserNameAndPassword" resultType="com.mall.userservice.domain.entity.User">
-        SELECT * FROM user WHERE user_name = #{username} AND pass_word = #{password}
-    </select>
+
 
 
 </mapper>

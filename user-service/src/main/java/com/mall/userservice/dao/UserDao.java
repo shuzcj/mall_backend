@@ -14,5 +14,5 @@ public interface UserDao {
 
     int checkUsernameExists(String username);
 
-    User getUserByUserNameAndPassword(String username, String password);
+
 }
