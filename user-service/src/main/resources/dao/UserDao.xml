@@ -18,8 +18,15 @@
         INSERT INTO user (user_name, pass_word,type) VALUES (#{userName}, #{passWord},#{type})
     </insert>
 
+    <!-- 查询用户是否存在 -->
     <select id="checkUsernameExists" resultType="int">
         SELECT COUNT(*) FROM user WHERE user_name = #{username}
     </select>
+
+    <!-- 根据用户名和密码查询用户 -->
+    <select id="getUserByUserNameAndPassword" resultType="com.mall.userservice.domain.entity.User">
+        SELECT * FROM user WHERE user_name = #{username} AND pass_word = #{password}
+    </select>
+
 
 </mapper>

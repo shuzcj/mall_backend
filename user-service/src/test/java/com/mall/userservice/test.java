@@ -1,7 +1,10 @@
 package com.mall.userservice;
 
 
+import com.mall.userservice.domain.dto.RegisterRequest;
+import com.mall.userservice.domain.entity.User;
 import com.mall.userservice.service.UserService;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +19,9 @@ public class test {
 
     @Test
     public void testSaveAndRetrievePerson() {
-
+        RegisterRequest registerRequest = new RegisterRequest("test2", "test", '1');
+        User user = new User("test", "test", '1');
+        userService.register(registerRequest);
     }
 
 

@@ -13,4 +13,6 @@ public interface UserDao {
     void registerUser(User user);
 
     int checkUsernameExists(String username);
+
+    User getUserByUserNameAndPassword(String username, String password);
 }
