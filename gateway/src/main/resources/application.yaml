@@ -1,0 +1,13 @@
+
+spring:
+
+  application:
+    name: gateway # 服务名称
+
+  main:
+    web-application-type: reactive # 指定应用类型为响应式,gateway 需要这个，否则报错
+
+
+server:
+  port: 8080  # Specific to the Auth server
+

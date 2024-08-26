@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mall.userservice.dao.UserDao">
+    <!-- 查询第一条用户记录 -->
+    <select id="getFirstUser" resultType="com.mall.userservice.domain.entity.User">
+        SELECT * FROM user LIMIT 1
+    </select>
+
+    <select id="getUserByUserName" resultType="com.mall.userservice.domain.entity.User">
+        SELECT * FROM user WHERE user_name = #{username} LIMIT 1
+    </select>
+
+    <!-- 插入用户信息到数据库 -->
+    <insert id="registerUser" parameterType="com.mall.userservice.domain.entity.User">
+        INSERT INTO user (user_name, pass_word,type) VALUES (#{userName}, #{passWord},#{type})
+    </insert>
+
+    <select id="checkUsernameExists" resultType="int">
+        SELECT COUNT(*) FROM user WHERE user_name = #{username}
+    </select>
+
+</mapper>
