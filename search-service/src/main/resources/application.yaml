@@ -1,3 +1,7 @@
 
 server:
   port: 8083
+
+spring:
+  elasticsearch:
+    uris: http://localhost:9200

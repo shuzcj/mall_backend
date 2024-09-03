@@ -1,7 +1,6 @@
 package com.mall.userservice.dao;
 
-import com.mall.userservice.domain.entity.User;
-import org.apache.ibatis.annotations.Mapper;
+import com.mall.common.domain.entity.User;
 
 
 public interface UserDao {

@@ -8,7 +8,7 @@ import com.mall.common.utils.RedisCache;
 import com.mall.userservice.dao.UserDao;
 import com.mall.userservice.domain.dto.LoginRequest;
 import com.mall.userservice.domain.dto.RegisterRequest;
-import com.mall.userservice.domain.entity.User;
+import com.mall.common.domain.entity.User;
 import com.mall.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

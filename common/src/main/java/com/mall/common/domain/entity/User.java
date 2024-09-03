@@ -1,4 +1,4 @@
-package com.mall.userservice.domain.entity;
+package com.mall.common.domain.entity;
 
 
 

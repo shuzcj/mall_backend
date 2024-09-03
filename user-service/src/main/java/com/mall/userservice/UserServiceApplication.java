@@ -4,7 +4,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(scanBasePackages= "com.mall")
+@SpringBootApplication(scanBasePackages= {"com.mall.userservice", "com.mall.common.utils"})
 @MapperScan("com.mall.userservice.dao")
 public class UserServiceApplication {
 

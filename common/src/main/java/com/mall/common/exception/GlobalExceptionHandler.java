@@ -1,8 +1,6 @@
 package com.mall.common.exception;
 
-import com.mall.common.vo.ApiResponse;
-import com.mall.common.exception.UserAlreadyExistsException;
-import org.springframework.http.HttpStatus;
+import com.mall.common.domain.vo.ApiResponse;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 

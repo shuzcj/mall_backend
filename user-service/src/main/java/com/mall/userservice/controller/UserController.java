@@ -4,7 +4,7 @@ import com.mall.userservice.domain.dto.LoginRequest;
 import com.mall.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.mall.common.vo.ApiResponse;
+import com.mall.common.domain.vo.ApiResponse;
 
 @RestController
 @RequestMapping("/user")
