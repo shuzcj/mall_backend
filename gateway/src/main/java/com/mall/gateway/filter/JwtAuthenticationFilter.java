@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
-@Order(1) // 确保这个过滤器的执行顺序
+@Order(1) // Ensures the execution order of this filter
 public class JwtAuthenticationFilter implements GlobalFilter {
 
     @Autowired
@@ -26,38 +26,44 @@ public class JwtAuthenticationFilter implements GlobalFilter {
         String path = exchange.getRequest().getPath().toString();
         List<String> whiteList = Arrays.asList("/user/login", "/user/register");
 
-        // 如果路径在白名单中，则直接放行
+        // If the path is in the whitelist, allow the request to pass through
         if (whiteList.contains(path)) {
+            System.out.println("Whitelist path accessed: " + path + " - Skipping authentication");
             return chain.filter(exchange);
         }
 
-        // 获取请求头中的 Authorization
+        // Get the Authorization header
         String authHeader = exchange.getRequest().getHeaders().getFirst("Authorization");
 
-        // 如果 Authorization 为空或者不以 "Bearer " 开头，直接返回未授权
+        // If the Authorization header is missing or doesn't start with "Bearer ", deny access
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            System.out.println("Unauthorized access attempt - Missing or invalid Authorization header");
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
         }
 
-        // 提取 JWT
+        // Extract the JWT token
         String token = authHeader.substring(7);
 
         try {
-            // 验证并解析 JWT
+            // Validate and parse the JWT
             Claims claims = jwtUtil.parseJWT(token);
 
-            // 将用户 ID 存入请求头，以便下游服务使用
+            // Retrieve the user ID from the token
             String userId = claims.getSubject();
+            System.out.println("Authentication successful for user: " + userId);
+
+            // Add the user ID to the request header for downstream services
             ServerWebExchange modifiedExchange = exchange.mutate()
                     .request(builder -> builder.header("user-info", userId))
                     .build();
 
-            // 放行请求，传递修改后的 Exchange
+            // Allow the request to pass through with the modified exchange
             return chain.filter(modifiedExchange);
 
         } catch (Exception e) {
-            // 如果 JWT 解析失败（如过期、无效等），返回未授权
+            // If JWT parsing fails (e.g., expired, invalid), log the error and deny access
+            System.out.println("Authentication failed - Error: " + e.getMessage());
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
         }

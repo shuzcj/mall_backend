@@ -42,13 +42,17 @@ public class Product {
     @Column(name = "update_time", nullable = true, columnDefinition = "datetime default CURRENT_TIMESTAMP")
     private LocalDateTime updateTime;
 
-    @Column(name = "business_id", nullable = false)
-    private Integer businessId;
+    @Column(name = "user_id", nullable = false)
+    private Integer userId;
+
+    @Column(name = "description", nullable = true)
+    private String description;
+
 
     public Product() {
     }
 
-    public Product(Integer id, String name, BigDecimal price, Integer stock, String imageUrls, Integer categoryId, String brand, Integer sold, String status, LocalDateTime createTime, LocalDateTime updateTime, Integer businessId) {
+    public Product(Integer id, String name, BigDecimal price, Integer stock, String imageUrls, Integer categoryId, String brand, Integer sold, String status, LocalDateTime createTime, LocalDateTime updateTime, Integer userId, String description) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -60,7 +64,8 @@ public class Product {
         this.status = status;
         this.createTime = createTime;
         this.updateTime = updateTime;
-        this.businessId = businessId;
+        this.userId = userId;
+        this.description = description;
     }
 
     /**
@@ -241,23 +246,37 @@ public class Product {
 
     /**
      * 获取
-     * @return businessId
+     * @return userId
      */
-    public Integer getBusinessId() {
-        return businessId;
+    public Integer getUserId() {
+        return userId;
     }
 
     /**
      * 设置
-     * @param businessId
+     * @param userId
      */
-    public void setBusinessId(Integer businessId) {
-        this.businessId = businessId;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    /**
+     * 获取
+     * @return description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * 设置
+     * @param description
+     */
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String toString() {
-        return "Product{id = " + id + ", name = " + name + ", price = " + price + ", stock = " + stock + ", imageUrls = " + imageUrls + ", categoryId = " + categoryId + ", brand = " + brand + ", sold = " + sold + ", status = " + status + ", createTime = " + createTime + ", updateTime = " + updateTime + ", businessId = " + businessId + "}";
+        return "Product{id = " + id + ", name = " + name + ", price = " + price + ", stock = " + stock + ", imageUrls = " + imageUrls + ", categoryId = " + categoryId + ", brand = " + brand + ", sold = " + sold + ", status = " + status + ", createTime = " + createTime + ", updateTime = " + updateTime + ", userId = " + userId + ", description = " + description + "}";
     }
-
-
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mall.productservice.dao.ProductDao">
+
+
+    <insert id="addProduct" parameterType="com.mall.common.domain.entity.Product">
+        INSERT INTO products
+        (name, price, stock, image_urls,category_id,brand,description,sold,status,create_time,update_time,user_id)
+        VALUES
+        (#{name}, #{price}, #{stock}, #{imageUrls},#{categoryId},#{brand},#{description},#{sold},#{status},#{createTime},#{updateTime},#{userId})
+    </insert>
+
+
+</mapper>
+
