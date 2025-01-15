@@ -15,7 +15,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ApiResponse<String> login(@RequestBody LoginRequest loginRequest) {
-
+        System.out.print("loginRequest: "+loginRequest);
         String jwt = userService.login(loginRequest);
         return ApiResponse.success(jwt);
     }

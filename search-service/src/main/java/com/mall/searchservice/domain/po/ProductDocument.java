@@ -38,11 +38,14 @@ public class ProductDocument {
     @Field(type = FieldType.Date)
     private LocalDateTime updateTime;
 
+    @Field(type=FieldType.Keyword)
+    private String brand;
+
 
     public ProductDocument() {
     }
 
-    public ProductDocument(String id, String name, Integer price, Integer stock, String imageUrl, String category, Integer sold, Integer businessId, LocalDateTime updateTime) {
+    public ProductDocument(String id, String name, Integer price, Integer stock, String imageUrl, String category, Integer sold, Integer businessId, LocalDateTime updateTime, String brand) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -52,6 +55,7 @@ public class ProductDocument {
         this.sold = sold;
         this.businessId = businessId;
         this.updateTime = updateTime;
+        this.brand = brand;
     }
 
     /**
@@ -198,7 +202,23 @@ public class ProductDocument {
         this.updateTime = updateTime;
     }
 
+    /**
+     * 获取
+     * @return brand
+     */
+    public String getBrand() {
+        return brand;
+    }
+
+    /**
+     * 设置
+     * @param brand
+     */
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
     public String toString() {
-        return "ProductDocument{id = " + id + ", name = " + name + ", price = " + price + ", stock = " + stock + ", imageUrl = " + imageUrl + ", category = " + category + ", sold = " + sold + ", businessId = " + businessId + ", updateTime = " + updateTime + "}";
+        return "ProductDocument{id = " + id + ", name = " + name + ", price = " + price + ", stock = " + stock + ", imageUrl = " + imageUrl + ", category = " + category + ", sold = " + sold + ", businessId = " + businessId + ", updateTime = " + updateTime + ", brand = " + brand + "}";
     }
 }
