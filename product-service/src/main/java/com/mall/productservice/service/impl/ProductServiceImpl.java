@@ -4,6 +4,8 @@ import cn.hutool.core.lang.UUID;
 import com.mall.common.domain.entity.Product;
 import com.mall.productservice.dao.ProductDao;
 import com.mall.productservice.domain.dto.AddProductRequest;
+import com.mall.productservice.domain.dto.StorePageProductQueryParams;
+import com.mall.productservice.domain.dto.StorePageProductResponse;
 import com.mall.productservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
 import java.io.File;
 
 @Service
@@ -34,6 +36,7 @@ public class ProductServiceImpl implements ProductService {
         product.setCategoryId(addProductRequest.getCategoryId());
         LocalDateTime now = LocalDateTime.now();
         product.setCreateTime(now);
+        product.setUpdateTime(now);
 
         // Handle image storage and URL generation
         StringBuilder images = new StringBuilder();
@@ -67,4 +70,26 @@ public class ProductServiceImpl implements ProductService {
 
 
     }
+
+    @Override
+    public StorePageProductResponse getProductsInStore(Integer userId, StorePageProductQueryParams queryParams) {
+        int offset = (queryParams.getPageNumber() - 1) * queryParams.getPageSize();
+        Map<String, Object> params = new HashMap<>();
+        params.put("userId", userId);
+        params.put("status", Objects.equals(queryParams.getStatus(), "all") ?null:queryParams.getStatus());
+        params.put("sort", queryParams.getSort());
+        params.put("pageSize", queryParams.getPageSize());
+        params.put("offset", offset);
+
+        List<Product> products = productDao.getProducts(params);
+        int total = productDao.countProducts(params);
+
+        StorePageProductResponse response = new StorePageProductResponse();
+        response.setProducts(products);
+        response.setTotal(total);
+
+        return response;
+    }
+
+
 }

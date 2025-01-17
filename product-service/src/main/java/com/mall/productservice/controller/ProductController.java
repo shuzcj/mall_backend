@@ -3,6 +3,8 @@ package com.mall.productservice.controller;
 
 import com.mall.common.domain.vo.ApiResponse;
 import com.mall.productservice.domain.dto.AddProductRequest;
+import com.mall.productservice.domain.dto.StorePageProductQueryParams;
+import com.mall.productservice.domain.dto.StorePageProductResponse;
 import com.mall.productservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +26,15 @@ public class ProductController {
         return ApiResponse.success("");
     }
 
+    @GetMapping()
+    public ApiResponse<StorePageProductResponse> getProduct(
+            @RequestHeader(value = "user-info", required = false) Integer userId,
+            StorePageProductQueryParams storePageProductQueryParams) {
+        System.out.println("storePageProductQueryParams: "+storePageProductQueryParams);
+        StorePageProductResponse storePageProductResponse = productService.getProductsInStore(userId, storePageProductQueryParams);
 
+        return ApiResponse.success(storePageProductResponse);
+    }
 
 
 

@@ -18,6 +18,9 @@ public class Product {
     @Column(name = "price", nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
+    @Column(name = "rating", nullable = false)
+    private Double rating;
+
     @Column(name = "stock", nullable = false)
     private Integer stock;
 
@@ -52,10 +55,11 @@ public class Product {
     public Product() {
     }
 
-    public Product(Integer id, String name, BigDecimal price, Integer stock, String imageUrls, Integer categoryId, String brand, Integer sold, String status, LocalDateTime createTime, LocalDateTime updateTime, Integer userId, String description) {
+    public Product(Integer id, String name, BigDecimal price, Double rating, Integer stock, String imageUrls, Integer categoryId, String brand, Integer sold, String status, LocalDateTime createTime, LocalDateTime updateTime, Integer userId, String description) {
         this.id = id;
         this.name = name;
         this.price = price;
+        this.rating = rating;
         this.stock = stock;
         this.imageUrls = imageUrls;
         this.categoryId = categoryId;
@@ -114,6 +118,22 @@ public class Product {
      */
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    /**
+     * 获取
+     * @return rating
+     */
+    public Double getRating() {
+        return rating;
+    }
+
+    /**
+     * 设置
+     * @param rating
+     */
+    public void setRating(Double rating) {
+        this.rating = rating;
     }
 
     /**
@@ -277,6 +297,6 @@ public class Product {
     }
 
     public String toString() {
-        return "Product{id = " + id + ", name = " + name + ", price = " + price + ", stock = " + stock + ", imageUrls = " + imageUrls + ", categoryId = " + categoryId + ", brand = " + brand + ", sold = " + sold + ", status = " + status + ", createTime = " + createTime + ", updateTime = " + updateTime + ", userId = " + userId + ", description = " + description + "}";
+        return "Product{id = " + id + ", name = " + name + ", price = " + price + ", rating = " + rating + ", stock = " + stock + ", imageUrls = " + imageUrls + ", categoryId = " + categoryId + ", brand = " + brand + ", sold = " + sold + ", status = " + status + ", createTime = " + createTime + ", updateTime = " + updateTime + ", userId = " + userId + ", description = " + description + "}";
     }
 }
