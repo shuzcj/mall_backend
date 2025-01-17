@@ -1,5 +1,6 @@
 package com.mall.gateway.filter;
 
+import cn.hutool.core.text.AntPathMatcher;
 import com.mall.common.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.nio.file.PathMatcher;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,10 +26,18 @@ public class JwtAuthenticationFilter implements GlobalFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String path = exchange.getRequest().getPath().toString();
-        List<String> whiteList = Arrays.asList("/user/login", "/user/register");
+        System.out.println("Request path: " + path);
+        List<String> whiteList = Arrays.asList("/user/login", "/user/register","/images/**");
 
-        // If the path is in the whitelist, allow the request to pass through
-        if (whiteList.contains(path)) {
+        // Instantiate AntPathMatcher
+        AntPathMatcher antPathMatcher = new AntPathMatcher();
+
+        // Check if the path matches any pattern in the whitelist
+        boolean isWhitelisted = whiteList.stream().anyMatch(pattern -> {
+            return antPathMatcher.match(pattern, path);
+        });
+
+        if (isWhitelisted) {
             System.out.println("Whitelist path accessed: " + path + " - Skipping authentication");
             return chain.filter(exchange);
         }
