@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setUserName(registerRequest.getUsername());
         user.setPassWord(encodedPassword);
-        user.setType(registerRequest.getType()); // 如果有用户类型字段
+
 
         // 保存用户信息到数据库
         userDao.registerUser(user);

@@ -52,7 +52,7 @@ public class ProductServiceImpl implements ProductService {
             for (MultipartFile file : addProductRequest.getImages()) {
                 // Generate a unique file name
                 String originalFilename = file.getOriginalFilename();
-                String uniqueFilename = UUID.randomUUID() + "_" + originalFilename;
+                String uniqueFilename = UUID.randomUUID() + ".jpg";
 
                 // Save the file to the disk
                 File destinationFile = new File(uploadDirectory + "\\" + uniqueFilename);
@@ -89,6 +89,12 @@ public class ProductServiceImpl implements ProductService {
         response.setTotal(total);
 
         return response;
+    }
+
+    @Override
+    public Product getProductById(Integer productId) {
+
+        return productDao.getProductById(productId);
     }
 
 

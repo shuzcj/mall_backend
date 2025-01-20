@@ -15,22 +15,14 @@ public class User implements Serializable {
 
     private String userName;
     private String passWord;
-    private char type;
-
 
     public User() {
     }
 
-    public User(String userName, String passWord, char type) {
+    public User(Long id, String userName, String passWord) {
+        this.id = id;
         this.userName = userName;
         this.passWord = passWord;
-        this.type = type;
-    }
-
-    public User(String userName, String passWord) {
-        this.userName = userName;
-        this.passWord = passWord;
-
     }
 
     /**
@@ -81,23 +73,7 @@ public class User implements Serializable {
         this.passWord = passWord;
     }
 
-    /**
-     * 获取
-     * @return type
-     */
-    public char getType() {
-        return type;
-    }
-
-    /**
-     * 设置
-     * @param type
-     */
-    public void setType(char type) {
-        this.type = type;
-    }
-
     public String toString() {
-        return "User{id = " + id + ", userName = " + userName + ", passWord = " + passWord + ", type = " + type + "}";
+        return "User{id = " + id + ", userName = " + userName + ", passWord = " + passWord + "}";
     }
 }

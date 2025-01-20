@@ -5,16 +5,14 @@ package com.mall.userservice.domain.dto;
 public class RegisterRequest {
     private String username;
     private String password;
-    private char type;
 
 
     public RegisterRequest() {
     }
 
-    public RegisterRequest(String username, String password, char type) {
+    public RegisterRequest(String username, String password) {
         this.username = username;
         this.password = password;
-        this.type = type;
     }
 
     /**
@@ -49,23 +47,7 @@ public class RegisterRequest {
         this.password = password;
     }
 
-    /**
-     * 获取
-     * @return type
-     */
-    public char getType() {
-        return type;
-    }
-
-    /**
-     * 设置
-     * @param type
-     */
-    public void setType(char type) {
-        this.type = type;
-    }
-
     public String toString() {
-        return "RegisterRequest{username = " + username + ", password = " + password + ", type = " + type + "}";
+        return "RegisterRequest{username = " + username + ", password = " + password + "}";
     }
 }

@@ -11,4 +11,6 @@ public interface ProductDao {
 
     List<Product> getProducts(Map<String, Object> queryParams);
     Integer countProducts(Map<String, Object> queryParams);
+
+    Product getProductById(Integer productId);
 }

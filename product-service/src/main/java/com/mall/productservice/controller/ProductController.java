@@ -1,6 +1,7 @@
 package com.mall.productservice.controller;
 
 
+import com.mall.common.domain.entity.Product;
 import com.mall.common.domain.vo.ApiResponse;
 import com.mall.productservice.domain.dto.AddProductRequest;
 import com.mall.productservice.domain.dto.StorePageProductQueryParams;
@@ -29,6 +30,15 @@ public class ProductController {
         StorePageProductResponse storePageProductResponse = productService.getProductsInStore(storePageProductQueryParams);
 
         return ApiResponse.success(storePageProductResponse);
+    }
+
+    // Get a single product by ID
+    @GetMapping("/{productId}")
+    public ApiResponse<Product> getProductById(@PathVariable Integer productId) {
+        System.out.println("Fetching product with ID: " + productId);
+        Product product = productService.getProductById(productId);
+
+        return ApiResponse.success(product);
     }
 
 

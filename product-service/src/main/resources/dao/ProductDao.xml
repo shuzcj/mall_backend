@@ -48,5 +48,12 @@
         </if>
     </select>
 
+    <!-- Query Product By Id -->
+    <select id="getProductById" parameterType="int" resultType="com.mall.common.domain.entity.Product">
+        SELECT *
+        FROM products
+        WHERE id = #{id}
+    </select>
+
 </mapper>
 

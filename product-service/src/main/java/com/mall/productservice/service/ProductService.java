@@ -13,4 +13,5 @@ public interface ProductService {
 
     StorePageProductResponse getProductsInStore(StorePageProductQueryParams storePageProductQueryParams);
 
+    Product getProductById(Integer productId);
 }
