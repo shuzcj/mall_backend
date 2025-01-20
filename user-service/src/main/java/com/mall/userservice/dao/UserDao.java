@@ -13,5 +13,6 @@ public interface UserDao {
 
     int checkUsernameExists(String username);
 
+    User getUserByUserId(Long id);
 
 }

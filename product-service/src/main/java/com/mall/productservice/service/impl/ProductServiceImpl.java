@@ -23,13 +23,13 @@ public class ProductServiceImpl implements ProductService {
     private ProductDao productDao;
 
     @Override
-    public void addProduct(int userId, AddProductRequest addProductRequest) {
+    public void addProduct( AddProductRequest addProductRequest) {
         Product product = new Product();
         if(addProductRequest.getDescription()!=null)
             product.setDescription(addProductRequest.getDescription());
         product.setPrice(addProductRequest.getPrice());
         product.setName(addProductRequest.getProductName());
-        product.setUserId(userId);
+        product.setUserId(addProductRequest.getUserId());
         product.setStatus(addProductRequest.getStatus());
         product.setSold(0);
         product.setStock(addProductRequest.getStock());
@@ -40,7 +40,7 @@ public class ProductServiceImpl implements ProductService {
 
         // Handle image storage and URL generation
         StringBuilder images = new StringBuilder();
-        String uploadDirectory = "D:\\programme\\mainProject3\\image\\product";
+        String uploadDirectory = "D:\\programme\\mainProject3\\images\\products";
 
         // Ensure the directory exists
         File directory = new File(uploadDirectory);
@@ -72,10 +72,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public StorePageProductResponse getProductsInStore(Integer userId, StorePageProductQueryParams queryParams) {
+    public StorePageProductResponse getProductsInStore(StorePageProductQueryParams queryParams) {
         int offset = (queryParams.getPageNumber() - 1) * queryParams.getPageSize();
         Map<String, Object> params = new HashMap<>();
-        params.put("userId", userId);
+        params.put("userId", queryParams.getUserId());
         params.put("status", Objects.equals(queryParams.getStatus(), "all") ?null:queryParams.getStatus());
         params.put("sort", queryParams.getSort());
         params.put("pageSize", queryParams.getPageSize());

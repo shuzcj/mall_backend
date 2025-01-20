@@ -1,5 +1,6 @@
 package com.mall.userservice.controller;
 
+import com.mall.common.domain.entity.User;
 import com.mall.userservice.domain.dto.LoginRequest;
 import com.mall.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,12 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @GetMapping()
+    public ApiResponse<User> getUserInfoByUserId(@RequestHeader(value = "user-info", required = false) Long userId) {
+        User user = userService.getUserInfoByUserId(userId);
+        return ApiResponse.success(user);
+    }
 
     @PostMapping("/login")
     public ApiResponse<String> login(@RequestBody LoginRequest loginRequest) {

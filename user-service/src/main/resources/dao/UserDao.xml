@@ -13,6 +13,10 @@
         SELECT * FROM user WHERE user_name = #{username} LIMIT 1
     </select>
 
+    <select id="getUserByUserId" resultType="com.mall.common.domain.entity.User">
+        SELECT * FROM user WHERE id = #{id}
+    </select>
+
     <!-- 插入用户信息到数据库 -->
     <insert id="registerUser" parameterType="com.mall.common.domain.entity.User">
         INSERT INTO user (user_name, pass_word,type) VALUES (#{userName}, #{passWord},#{type})

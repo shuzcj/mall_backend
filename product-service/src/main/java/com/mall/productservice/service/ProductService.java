@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface ProductService {
 
-    void addProduct(int userId, AddProductRequest addProductRequest);
+    void addProduct(AddProductRequest addProductRequest);
 
-    StorePageProductResponse getProductsInStore(Integer userId, StorePageProductQueryParams storePageProductQueryParams);
+    StorePageProductResponse getProductsInStore(StorePageProductQueryParams storePageProductQueryParams);
 
 }

@@ -69,6 +69,11 @@ public class UserServiceImpl implements UserService {
         return "登出成功";
     }
 
+    @Override
+    public User getUserInfoByUserId(Long id) {
+
+        return userDao.getUserByUserId(id);
+    }
 
 
     @Override

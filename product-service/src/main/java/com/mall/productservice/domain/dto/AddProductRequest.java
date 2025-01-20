@@ -7,6 +7,7 @@ import java.util.List;
 
 public class AddProductRequest {
 
+    private Integer userId;               // User ID
     private String productName;       // Name of the product
     private String description;       // Description of the product
     private BigDecimal price;         // Price of the product
@@ -19,7 +20,8 @@ public class AddProductRequest {
     public AddProductRequest() {
     }
 
-    public AddProductRequest(String productName, String description, BigDecimal price, Integer stock, Integer categoryId, String status, List<MultipartFile> images) {
+    public AddProductRequest(Integer userId, String productName, String description, BigDecimal price, Integer stock, Integer categoryId, String status, List<MultipartFile> images) {
+        this.userId = userId;
         this.productName = productName;
         this.description = description;
         this.price = price;
@@ -27,6 +29,22 @@ public class AddProductRequest {
         this.categoryId = categoryId;
         this.status = status;
         this.images = images;
+    }
+
+    /**
+     * 获取
+     * @return userId
+     */
+    public Integer getUserId() {
+        return userId;
+    }
+
+    /**
+     * 设置
+     * @param userId
+     */
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     /**
@@ -142,6 +160,6 @@ public class AddProductRequest {
     }
 
     public String toString() {
-        return "AddProductRequest{productName = " + productName + ", description = " + description + ", price = " + price + ", stock = " + stock + ", categoryId = " + categoryId + ", status = " + status + ", images = " + images + "}";
+        return "AddProductRequest{userId = " + userId + ", productName = " + productName + ", description = " + description + ", price = " + price + ", stock = " + stock + ", categoryId = " + categoryId + ", status = " + status + ", images = " + images + "}";
     }
 }

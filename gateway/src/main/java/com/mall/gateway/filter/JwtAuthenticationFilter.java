@@ -1,6 +1,10 @@
 package com.mall.gateway.filter;
 
 import cn.hutool.core.text.AntPathMatcher;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mall.common.domain.vo.ApiResponse;
 import com.mall.common.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,11 +49,20 @@ public class JwtAuthenticationFilter implements GlobalFilter {
         // Get the Authorization header
         String authHeader = exchange.getRequest().getHeaders().getFirst("Authorization");
 
+        System.out.println("Authorization header: " + authHeader);
+
         // If the Authorization header is missing or doesn't start with "Bearer ", deny access
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             System.out.println("Unauthorized access attempt - Missing or invalid Authorization header");
-            exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-            return exchange.getResponse().setComplete();
+//            exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+//            return exchange.getResponse().setComplete();
+            ApiResponse<Void> response = ApiResponse.unauthorized("Unauthorized access attempt - Missing or invalid Authorization header");
+            try {
+                return exchange.getResponse().writeWith(Mono.just(exchange.getResponse().bufferFactory().wrap(new ObjectMapper().writeValueAsBytes(response))));
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+
         }
 
         // Extract the JWT token
@@ -74,8 +87,15 @@ public class JwtAuthenticationFilter implements GlobalFilter {
         } catch (Exception e) {
             // If JWT parsing fails (e.g., expired, invalid), log the error and deny access
             System.out.println("Authentication failed - Error: " + e.getMessage());
-            exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-            return exchange.getResponse().setComplete();
+//            exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+//            return exchange.getResponse().setComplete();
+            ApiResponse<Void> response = ApiResponse.unauthorized("Authentication failed - Error: " + e.getMessage());
+            try {
+                return exchange.getResponse().writeWith(Mono.just(exchange.getResponse().bufferFactory().wrap(new ObjectMapper().writeValueAsBytes(response))));
+            } catch (JsonProcessingException ex) {
+                throw new RuntimeException(ex);
+            }
+
         }
     }
 }

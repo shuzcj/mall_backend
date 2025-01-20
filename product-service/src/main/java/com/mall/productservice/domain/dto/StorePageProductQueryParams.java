@@ -2,6 +2,7 @@ package com.mall.productservice.domain.dto;
 
 public class StorePageProductQueryParams {
 
+
     private String sort;
     private String status;
     private Integer userId;
@@ -11,6 +12,7 @@ public class StorePageProductQueryParams {
 
     public StorePageProductQueryParams() {
     }
+
 
     public StorePageProductQueryParams(String sort, String status, Integer userId, Integer pageNumber, Integer pageSize) {
         this.sort = sort;

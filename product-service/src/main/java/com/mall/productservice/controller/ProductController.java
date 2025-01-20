@@ -17,21 +17,16 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping()
-    public ApiResponse<String> addProductRequest(
-            @RequestHeader(value = "user-info", required = false) String userId,
-                                                 AddProductRequest addProductRequest) {
-        System.out.println("userId: "+userId);
+    public ApiResponse<String> addProductRequest(AddProductRequest addProductRequest) {
         System.out.println("addProductRequest: "+addProductRequest);
-        productService.addProduct(Integer.parseInt(userId), addProductRequest);
+        productService.addProduct(addProductRequest);
         return ApiResponse.success("");
     }
 
     @GetMapping()
-    public ApiResponse<StorePageProductResponse> getProduct(
-            @RequestHeader(value = "user-info", required = false) Integer userId,
-            StorePageProductQueryParams storePageProductQueryParams) {
+    public ApiResponse<StorePageProductResponse> getProduct(StorePageProductQueryParams storePageProductQueryParams) {
         System.out.println("storePageProductQueryParams: "+storePageProductQueryParams);
-        StorePageProductResponse storePageProductResponse = productService.getProductsInStore(userId, storePageProductQueryParams);
+        StorePageProductResponse storePageProductResponse = productService.getProductsInStore(storePageProductQueryParams);
 
         return ApiResponse.success(storePageProductResponse);
     }
