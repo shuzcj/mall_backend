@@ -13,4 +13,10 @@ public interface ProductDao {
     Integer countProducts(Map<String, Object> queryParams);
 
     Product getProductById(Integer productId);
+
+    Integer checkStock(Integer productId);
+
+    Integer deductStock(Integer productId, Integer stock);
+
+    Integer addStock(Integer productId, Integer stock);
 }

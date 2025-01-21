@@ -39,11 +39,11 @@ public class Product {
     @Column(name = "status", nullable = false, columnDefinition = "enum('active', 'inactive', 'deleted') default 'active'")
     private String status;
 
-    @Column(name = "create_time", nullable = true, columnDefinition = "datetime default CURRENT_TIMESTAMP")
-    private LocalDateTime createTime;
+    @Column(name = "create_at", nullable = true, columnDefinition = "datetime default CURRENT_TIMESTAMP")
+    private LocalDateTime createAt;
 
-    @Column(name = "update_time", nullable = true, columnDefinition = "datetime default CURRENT_TIMESTAMP")
-    private LocalDateTime updateTime;
+    @Column(name = "update_at", nullable = true, columnDefinition = "datetime default CURRENT_TIMESTAMP")
+    private LocalDateTime updateAt;
 
     @Column(name = "user_id", nullable = false)
     private Integer userId;
@@ -55,7 +55,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(Integer id, String name, BigDecimal price, Double rating, Integer stock, String imageUrls, Integer categoryId, String brand, Integer sold, String status, LocalDateTime createTime, LocalDateTime updateTime, Integer userId, String description) {
+    public Product(Integer id, String name, BigDecimal price, Double rating, Integer stock, String imageUrls, Integer categoryId, String brand, Integer sold, String status, LocalDateTime createAt, LocalDateTime updateAt, Integer userId, String description) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -66,8 +66,8 @@ public class Product {
         this.brand = brand;
         this.sold = sold;
         this.status = status;
-        this.createTime = createTime;
-        this.updateTime = updateTime;
+        this.createAt = createAt;
+        this.updateAt = updateAt;
         this.userId = userId;
         this.description = description;
     }
@@ -234,34 +234,34 @@ public class Product {
 
     /**
      * 获取
-     * @return createTime
+     * @return createAt
      */
-    public LocalDateTime getCreateTime() {
-        return createTime;
+    public LocalDateTime getCreateAt() {
+        return createAt;
     }
 
     /**
      * 设置
-     * @param createTime
+     * @param createAt
      */
-    public void setCreateTime(LocalDateTime createTime) {
-        this.createTime = createTime;
+    public void setCreateAt(LocalDateTime createAt) {
+        this.createAt = createAt;
     }
 
     /**
      * 获取
-     * @return updateTime
+     * @return updateAt
      */
-    public LocalDateTime getUpdateTime() {
-        return updateTime;
+    public LocalDateTime getUpdateAt() {
+        return updateAt;
     }
 
     /**
      * 设置
-     * @param updateTime
+     * @param updateAt
      */
-    public void setUpdateTime(LocalDateTime updateTime) {
-        this.updateTime = updateTime;
+    public void setUpdateAt(LocalDateTime updateAt) {
+        this.updateAt = updateAt;
     }
 
     /**
@@ -297,6 +297,6 @@ public class Product {
     }
 
     public String toString() {
-        return "Product{id = " + id + ", name = " + name + ", price = " + price + ", rating = " + rating + ", stock = " + stock + ", imageUrls = " + imageUrls + ", categoryId = " + categoryId + ", brand = " + brand + ", sold = " + sold + ", status = " + status + ", createTime = " + createTime + ", updateTime = " + updateTime + ", userId = " + userId + ", description = " + description + "}";
+        return "Product{id = " + id + ", name = " + name + ", price = " + price + ", rating = " + rating + ", stock = " + stock + ", imageUrls = " + imageUrls + ", categoryId = " + categoryId + ", brand = " + brand + ", sold = " + sold + ", status = " + status + ", createAt = " + createAt + ", updateAt = " + updateAt + ", userId = " + userId + ", description = " + description + "}";
     }
 }

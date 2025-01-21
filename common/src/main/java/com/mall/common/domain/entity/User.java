@@ -11,25 +11,28 @@ public class User implements Serializable {
 
 
     @Id
-    private Long id;
+    private Integer id;
 
     private String userName;
     private String passWord;
+    private String address;
+
 
     public User() {
     }
 
-    public User(Long id, String userName, String passWord) {
+    public User(Integer id, String userName, String passWord, String address) {
         this.id = id;
         this.userName = userName;
         this.passWord = passWord;
+        this.address = address;
     }
 
     /**
      * 获取
      * @return id
      */
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -37,7 +40,7 @@ public class User implements Serializable {
      * 设置
      * @param id
      */
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -73,7 +76,23 @@ public class User implements Serializable {
         this.passWord = passWord;
     }
 
+    /**
+     * 获取
+     * @return address
+     */
+    public String getAddress() {
+        return address;
+    }
+
+    /**
+     * 设置
+     * @param address
+     */
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public String toString() {
-        return "User{id = " + id + ", userName = " + userName + ", passWord = " + passWord + "}";
+        return "User{id = " + id + ", userName = " + userName + ", passWord = " + passWord + ", address = " + address + "}";
     }
 }

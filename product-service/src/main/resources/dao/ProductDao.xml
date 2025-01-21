@@ -8,9 +8,9 @@
 
     <insert id="addProduct" parameterType="com.mall.common.domain.entity.Product">
         INSERT INTO products
-        (name, price, stock, image_urls,category_id,brand,description,sold,status,create_time,update_time,user_id)
+        (name, price, stock, image_urls,category_id,brand,description,sold,status,create_at,update_at,user_id)
         VALUES
-        (#{name}, #{price}, #{stock}, #{imageUrls},#{categoryId},#{brand},#{description},#{sold},#{status},#{createTime},#{updateTime},#{userId})
+        (#{name}, #{price}, #{stock}, #{imageUrls},#{categoryId},#{brand},#{description},#{sold},#{status},#{createAt},#{updateAt},#{userId})
     </insert>
 
     <!-- Query Products -->
@@ -53,6 +53,27 @@
         SELECT *
         FROM products
         WHERE id = #{id}
+    </select>
+
+
+
+    <!-- SQL to update stock by deducting -->
+    <update id="deductStock">
+        UPDATE products
+        SET stock = stock - #{amount}
+        WHERE id = #{productId} AND stock >= #{amount}
+    </update>
+
+    <!-- SQL to add stock -->
+    <update id="addStock">
+        UPDATE products
+        SET stock = stock + #{amount}
+        WHERE id = #{productId}
+    </update>
+
+    <!-- SQL to check current stock -->
+    <select id="checkStock" resultType="int">
+        SELECT stock FROM products WHERE id = #{productId}
     </select>
 
 </mapper>

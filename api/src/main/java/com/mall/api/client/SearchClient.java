@@ -4,8 +4,8 @@ import com.mall.api.config.FeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 
-@FeignClient(value = "search-service",configuration = FeignConfig.class)
-public interface searchClient {
+@FeignClient(name= "search-service",configuration = FeignConfig.class)
+public interface SearchClient {
 
     @GetMapping("/search/hello")
    String test();

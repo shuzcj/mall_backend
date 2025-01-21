@@ -5,6 +5,16 @@
 
 <mapper namespace="com.mall.orderservice.dao.OrderDao">
 
+    <insert id="insertOrder" parameterType="com.mall.common.domain.entity.Order"
+            useGeneratedKeys="true" keyProperty="orderId">
+        INSERT INTO orders (user_id, order_status, total_amount, payment_status, user_address, create_at, update_at)
+        VALUES (#{userId}, #{orderStatus}, #{totalAmount}, #{paymentStatus}, #{userAddress}, #{createAt}, #{updateAt})
+    </insert>
 
+
+    <insert id="insertOrderItem" parameterType="com.mall.orderservice.domain.SimpleOrderItem">
+        INSERT INTO order_items (order_id, product_id, quantity, price_per_unit, subtotal)
+        VALUES (#{orderId}, #{productId}, #{quantity}, #{price}, #{subtotal})
+    </insert>
 
 </mapper>

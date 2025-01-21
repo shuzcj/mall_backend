@@ -1,6 +1,7 @@
 package com.mall.productservice.service.impl;
 
 import cn.hutool.core.lang.UUID;
+import com.mall.common.domain.dto.StockUpdateResponse;
 import com.mall.common.domain.entity.Product;
 import com.mall.productservice.dao.ProductDao;
 import com.mall.productservice.domain.dto.AddProductRequest;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.io.File;
@@ -35,8 +37,8 @@ public class ProductServiceImpl implements ProductService {
         product.setStock(addProductRequest.getStock());
         product.setCategoryId(addProductRequest.getCategoryId());
         LocalDateTime now = LocalDateTime.now();
-        product.setCreateTime(now);
-        product.setUpdateTime(now);
+        product.setCreateAt(now);
+        product.setUpdateAt(now);
 
         // Handle image storage and URL generation
         StringBuilder images = new StringBuilder();
@@ -95,6 +97,34 @@ public class ProductServiceImpl implements ProductService {
     public Product getProductById(Integer productId) {
 
         return productDao.getProductById(productId);
+    }
+
+    @Override
+    public StockUpdateResponse updateStock(Integer productId, Integer stock) {
+        Product product = productDao.getProductById(productId);
+        if (product == null) {
+            throw new IllegalArgumentException("Product not found with ID: " + productId);
+        }
+
+        int currentStock = product.getStock();
+
+        if (stock < 0) {
+            if (currentStock >= Math.abs(stock)) {
+                // If enough stock, perform the deduction
+                if (productDao.deductStock(productId, Math.abs(stock)) > 0) {//if the rows which are updated are more than 0
+                    // Calculate total price deduction
+                    BigDecimal pricePerUnit = product.getPrice();
+                    return new StockUpdateResponse(true, pricePerUnit);//return the single price of the product
+                } else {
+                    return new StockUpdateResponse(false, new BigDecimal(-1));
+                }
+            }
+            return new StockUpdateResponse(false, new BigDecimal(-1)); // Not enough stock
+        } else {
+            // Add stock
+            productDao.addStock(productId, stock);
+            return new StockUpdateResponse(true, BigDecimal.ZERO); // No monetary value involved in adding stock
+        }
     }
 
 

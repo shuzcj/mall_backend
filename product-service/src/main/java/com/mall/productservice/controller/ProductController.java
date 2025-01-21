@@ -1,6 +1,7 @@
 package com.mall.productservice.controller;
 
 
+import com.mall.common.domain.dto.StockUpdateResponse;
 import com.mall.common.domain.entity.Product;
 import com.mall.common.domain.vo.ApiResponse;
 import com.mall.productservice.domain.dto.AddProductRequest;
@@ -41,6 +42,9 @@ public class ProductController {
         return ApiResponse.success(product);
     }
 
-
+    @PostMapping("UpdateStock")
+    public StockUpdateResponse updateStock(@RequestParam Integer productId, @RequestParam Integer stock) {
+        return productService.updateStock(productId, stock);
+    }
 
 }
