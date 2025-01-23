@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.mall.orderservice","com.mall.common"})
 @MapperScan("com.mall.orderservice.dao")
 @EnableFeignClients( basePackages = {"com.mall.api.client","com.mall.orderservice"})
 public class OrderServiceApplication {
