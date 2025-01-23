@@ -37,8 +37,8 @@ public class ProductServiceImpl implements ProductService {
         product.setStock(addProductRequest.getStock());
         product.setCategoryId(addProductRequest.getCategoryId());
         LocalDateTime now = LocalDateTime.now();
-        product.setCreateAt(now);
-        product.setUpdateAt(now);
+        product.setCreatedAt(now);
+        product.setUpdatedAt(now);
 
         // Handle image storage and URL generation
         StringBuilder images = new StringBuilder();

@@ -3,6 +3,8 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
+  main:
+    allow-bean-definition-overriding: true
 
 server:
   port: 8085

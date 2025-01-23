@@ -118,10 +118,7 @@
             <version>5.8.11</version> <!-- Check for the latest version on Maven Central -->
         </dependency>
 
-        <dependency>
-            <groupId>com.mall</groupId>
-            <artifactId>api</artifactId>
-        </dependency>
+
 
     </dependencies>
     <dependencyManagement>

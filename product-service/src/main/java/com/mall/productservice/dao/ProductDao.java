@@ -1,6 +1,7 @@
 package com.mall.productservice.dao;
 
 import com.mall.common.domain.entity.Product;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +17,7 @@ public interface ProductDao {
 
     Integer checkStock(Integer productId);
 
-    Integer deductStock(Integer productId, Integer stock);
+    Integer deductStock(@Param("productId") Integer productId, @Param("stock") Integer stock);
+    Integer addStock(@Param("productId") Integer productId, @Param("stock") Integer stock);
 
-    Integer addStock(Integer productId, Integer stock);
 }

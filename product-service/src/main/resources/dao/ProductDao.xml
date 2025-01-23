@@ -8,9 +8,9 @@
 
     <insert id="addProduct" parameterType="com.mall.common.domain.entity.Product">
         INSERT INTO products
-        (name, price, stock, image_urls,category_id,brand,description,sold,status,create_at,update_at,user_id)
+        (name, price, stock, image_urls,category_id,brand,description,sold,status,created_at,updated_at,user_id)
         VALUES
-        (#{name}, #{price}, #{stock}, #{imageUrls},#{categoryId},#{brand},#{description},#{sold},#{status},#{createAt},#{updateAt},#{userId})
+        (#{name}, #{price}, #{stock}, #{imageUrls},#{categoryId},#{brand},#{description},#{sold},#{status},#{createdAt},#{updatedAt},#{userId})
     </insert>
 
     <!-- Query Products -->
@@ -23,7 +23,7 @@
         </if>
         <choose>
             <when test="sort == 'latest'">
-                ORDER BY update_time DESC
+                ORDER BY updated_at DESC
             </when>
             <when test="sort == 'topSales'">
                 ORDER BY sold DESC
@@ -60,14 +60,14 @@
     <!-- SQL to update stock by deducting -->
     <update id="deductStock">
         UPDATE products
-        SET stock = stock - #{amount}
-        WHERE id = #{productId} AND stock >= #{amount}
+        SET stock = stock - #{stock}
+        WHERE id = #{productId} AND stock >= #{stock}
     </update>
 
     <!-- SQL to add stock -->
     <update id="addStock">
         UPDATE products
-        SET stock = stock + #{amount}
+        SET stock = stock + #{stock}
         WHERE id = #{productId}
     </update>
 

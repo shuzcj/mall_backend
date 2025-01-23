@@ -42,8 +42,9 @@ public class ProductController {
         return ApiResponse.success(product);
     }
 
-    @PostMapping("UpdateStock")
-    public StockUpdateResponse updateStock(@RequestParam Integer productId, @RequestParam Integer stock) {
+    @PostMapping("updateStock")
+    public StockUpdateResponse updateStock(@RequestParam("productId") Integer productId, @RequestParam("stock") Integer stock){
+
         return productService.updateStock(productId, stock);
     }
 

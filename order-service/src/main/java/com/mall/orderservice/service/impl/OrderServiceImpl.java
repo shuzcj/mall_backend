@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -31,18 +32,21 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Integer createOrder(Integer userId, List<SimpleOrderItem> simpleOrderItems) {
 
+        //quantity is negative
         BigDecimal totalPrice = BigDecimal.ZERO;
-        List<OrderItem> orderItems= null;
+        List<OrderItem> orderItems= new ArrayList<OrderItem>();
         for (SimpleOrderItem simpleOrderItem : simpleOrderItems) {
             StockUpdateResponse stockUpdateResponse  = productClient.updateStock(simpleOrderItem.getId(), simpleOrderItem.getQuantity());
-            if(stockUpdateResponse.isSuccess()) {
-                totalPrice = totalPrice.add(stockUpdateResponse.getValue().multiply(BigDecimal.valueOf(simpleOrderItem.getQuantity())));
 
+            if(stockUpdateResponse.isSuccess()) {
+
+                BigDecimal price =stockUpdateResponse.getValue().multiply(BigDecimal.valueOf(-1L *simpleOrderItem.getQuantity()));
+                totalPrice = totalPrice.add(price);
                 OrderItem orderItem = new OrderItem();
                 orderItem.setProductId(simpleOrderItem.getId());
-                orderItem.setQuantity(simpleOrderItem.getQuantity());
+                orderItem.setQuantity(-1*simpleOrderItem.getQuantity());
                 orderItem.setPricePerUnit(stockUpdateResponse.getValue());
-                orderItem.setSubtotal(totalPrice);
+                orderItem.setSubtotal(price);
 
                 orderItems.add(orderItem);
 

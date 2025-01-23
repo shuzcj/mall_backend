@@ -46,6 +46,10 @@ spring:
           uri: lb://product-service # Route to ProductApplication
           predicates:
             - Path=/images/products/**
+        - id: order
+          uri: lb://order-service # Route to ProductApplication
+          predicates:
+            - Path=/order/**
 
 server:
   port: 8080  # Specific to the Auth server

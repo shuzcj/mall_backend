@@ -7,8 +7,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @MapperScan("com.mall.orderservice.dao")
-@EnableFeignClients( basePackages = {"com.mall.api.client","com.mall.orderservice"}, defaultConfiguration = com.mall.api.config.FeignConfig.class)
-
+@EnableFeignClients( basePackages = {"com.mall.api.client","com.mall.orderservice"})
 public class OrderServiceApplication {
 
     public static void main(String[] args) {
