@@ -17,4 +17,13 @@
         VALUES (#{orderId}, #{productId}, #{quantity}, #{pricePerUnit}, #{subtotal})
     </insert>
 
+    <select id="getOrderById" parameterType="int" resultType="com.mall.common.domain.entity.Order">
+        SELECT * FROM orders WHERE id = #{id}
+    </select>
+
+
+    <update id="updateOrderStatus" parameterType="com.mall.common.domain.entity.Order">
+        UPDATE orders SET order_status = #{orderStatus},payment_status=#{paymentStatus}, updated_at = #{updatedAt} WHERE id = #{id}
+    </update>
+
 </mapper>

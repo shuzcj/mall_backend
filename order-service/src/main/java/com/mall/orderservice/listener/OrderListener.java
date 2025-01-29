@@ -1,7 +1,9 @@
 package com.mall.orderservice.listener;
 
 
+import com.mall.orderservice.service.OrderService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -11,6 +13,9 @@ import java.util.Set;
 
 @Component
 public class OrderListener {
+
+    @Autowired
+    private OrderService orderService;
 
 
     @RabbitListener(queues = "test.q1")
@@ -32,13 +37,22 @@ public class OrderListener {
         System.out.println("q3,Received message: " + message);
     }
 
-    @RabbitListener(queues = "deadLetter.queue")
-    public void deadLetterHandleMessage(String message) {
-        LocalDateTime now = LocalDateTime.now();
-        System.out.println("Received in DLQ: " + now);
-        System.out.println("Received in DLQ: " + message);
-        // Further processing or logging
-    }
+//    @RabbitListener(queues = "deadLetter.queue")
+//    public void deadLetterHandleMessage(String message) {
+//        LocalDateTime now = LocalDateTime.now();
+//        System.out.println("Received in DLQ: " + now);
+//        System.out.println("Received in DLQ: " + message);
+//        // Further processing or logging
+//    }
 
+
+    @RabbitListener(queues = "deadLetter.queue")
+    public void deadLetterHandleMessage(Integer orderId) {
+        LocalDateTime now = LocalDateTime.now();
+        System.out.println("Received in DLQ time: " + now);
+        System.out.println("Received in DLQ orderID: " + orderId);
+        // Further processing or logging
+        orderService.checkAndUpdateOrderPaymentStatus(orderId);
+    }
 
 }

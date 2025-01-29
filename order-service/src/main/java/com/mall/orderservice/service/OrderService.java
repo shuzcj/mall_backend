@@ -7,4 +7,7 @@ import java.util.List;
 public interface OrderService {
 
     Integer createOrder(Integer userId, List<SimpleOrderItem> simpleOrderItems);
+
+    void checkAndUpdateOrderPaymentStatus(Integer orderId);
+
 }

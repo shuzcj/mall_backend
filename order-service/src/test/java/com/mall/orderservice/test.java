@@ -107,4 +107,6 @@ public class test {
         rabbitTemplate.convertAndSend(exchangeName, routingKey, message);
     }
 
+
+
 }

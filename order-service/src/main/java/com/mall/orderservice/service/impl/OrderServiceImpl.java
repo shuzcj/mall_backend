@@ -10,6 +10,7 @@ import com.mall.orderservice.dao.OrderDao;
 import com.mall.orderservice.domain.SimpleOrderItem;
 import com.mall.orderservice.service.OrderService;
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 @Service
 public class OrderServiceImpl implements OrderService {
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @Autowired
     private ProductClient productClient;
@@ -74,6 +78,32 @@ public class OrderServiceImpl implements OrderService {
             orderDao.insertOrderItem(orderItem);
         }
 
+        System.out.println("Order created: " + order);
+
+        String exchangeName = "dlx.exchange";
+        String routingKey = "delay";  // Use 'delay' to send the message to the delayQueue
+        Integer orderId = order.getId();
+        now = LocalDateTime.now();
+        System.out.println("Sending message: " + now);
+        rabbitTemplate.convertAndSend(exchangeName, routingKey, orderId);
+
+
         return 0;
     }
+
+    @Override
+    public void checkAndUpdateOrderPaymentStatus(Integer orderId) {
+        Order order = orderDao.getOrderById(orderId);
+        if (order != null && "pending payment".equals(order.getPaymentStatus())) {
+            order.setOrderStatus("closed");
+            order.setPaymentStatus("unpaid");
+            order.setUpdatedAt(LocalDateTime.now());
+            orderDao.updateOrderStatus(order);
+        } else if (order != null && "paid".equals(order.getPaymentStatus())) {
+            // If already paid, do nothing.
+            System.out.println("Order already paid. No action needed.");
+        }
+    }
+
+
 }

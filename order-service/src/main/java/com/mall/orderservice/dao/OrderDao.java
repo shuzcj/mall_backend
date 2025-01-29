@@ -8,4 +8,8 @@ public interface OrderDao {
 
     void insertOrder(Order order);
     void insertOrderItem(OrderItem orderItem);
+
+    Order getOrderById(Integer id);
+
+    void updateOrderStatus(Order order);
 }
