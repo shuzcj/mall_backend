@@ -9,4 +9,14 @@
         VALUES (#{orderId}, #{userId}, #{amount}, #{status}, #{paymentDate}, #{createdAt}, #{updatedAt})
     </insert>
 
+    <select id="getPaymentByOrderId" parameterType="int" resultType="com.mall.common.domain.entity.Payment">
+        SELECT * FROM payments WHERE order_id = #{orderId}
+    </select>
+
+    <update id="updatePaymentStatus"  parameterType="com.mall.common.domain.entity.Payment">
+        UPDATE payments
+        SET status = #{status}, updated_at = #{updatedAt} ,payment_date = #{paymentDate}
+        WHERE id = #{id}
+    </update>
+
 </mapper>

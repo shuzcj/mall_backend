@@ -55,4 +55,15 @@ public class OrderListener {
         orderService.checkAndUpdateOrderPaymentStatus(orderId);
     }
 
+
+    @RabbitListener(queues = "updateOrderStatus")
+    public void updateOrderStatus(Integer orderId) {
+
+        System.out.println("Received in updateOrderStatus==============================: " + orderId);
+
+        orderService.updateOrderStatus(orderId);
+    }
+
+
+
 }

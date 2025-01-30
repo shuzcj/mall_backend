@@ -6,4 +6,8 @@ public interface PayService {
 
     public Integer createPayment(Payment payment);
 
+    String processPayment(Integer orderId, Integer userId);
+
+    Payment getPaymentByOrderId(Integer paymentId);
+
 }

@@ -26,4 +26,7 @@
         UPDATE orders SET order_status = #{orderStatus},payment_status=#{paymentStatus}, updated_at = #{updatedAt} WHERE id = #{id}
     </update>
 
+    <select id="getOrderItemsByOrderId" parameterType="int" resultType="com.mall.common.domain.entity.OrderItem">
+        SELECT * FROM order_items WHERE order_id = #{orderId}
+    </select>
 </mapper>

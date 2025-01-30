@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.mall.common.domain.vo.ApiResponse;
 
+import java.math.BigDecimal;
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -52,6 +54,14 @@ public class UserController {
     public ApiResponse<Boolean> usernameExists(@RequestParam String username) {
 
         return null;
+    }
+
+    @PostMapping("/deductBalance")
+    public ApiResponse<Boolean> deductBalance(@RequestParam("userId") Integer userId, @RequestParam("amount") BigDecimal amount) {
+
+        Boolean bool=userService.deductBalance(userId, amount);
+
+        return ApiResponse.success(bool);
     }
 
 

@@ -5,4 +5,9 @@ import com.mall.common.domain.entity.Payment;
 public interface PayDao {
 
     Integer createPayment(Payment payment);
+
+
+    Payment getPaymentByOrderId(Integer orderId);
+
+    void updatePaymentStatus(Payment payment);
 }

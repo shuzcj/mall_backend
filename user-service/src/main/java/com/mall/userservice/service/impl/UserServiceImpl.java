@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -106,11 +107,16 @@ public class UserServiceImpl implements UserService {
 
         System.out.println("username = " + username);
         int exists = userDao.checkUsernameExists(username);
-        if (exists > 0) {
-            return true;
-        }
-
-        return false;
+        return exists > 0;
     }
+
+
+
+    @Override
+    public Boolean deductBalance(Integer userId, BigDecimal amount) {
+
+        return userDao.deductBalance(userId, amount) > 0;
+    }
+
 
 }

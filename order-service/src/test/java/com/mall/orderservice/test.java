@@ -26,11 +26,11 @@ public class test {
     @Test
     void asd() {
 
-        Integer userId = 1;
+        Integer userId = 8;
         List<SimpleOrderItem> simpleOrderItems = new ArrayList<>();
         SimpleOrderItem item = new SimpleOrderItem();
         item.setId(55);
-        item.setQuantity(-2);
+        item.setQuantity(-11);
         simpleOrderItems.add(item);
         orderService.createOrder(userId, simpleOrderItems);
     }

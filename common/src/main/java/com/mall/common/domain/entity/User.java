@@ -4,6 +4,7 @@ package com.mall.common.domain.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "user")
@@ -13,19 +14,28 @@ public class User implements Serializable {
     @Id
     private Integer id;
 
+    @Column(name = "user_name",nullable = false)
     private String userName;
+
+    @Column(name = "pass_word",nullable = false)
     private String passWord;
+
+    @Column(name = "address")
     private String address;
+
+    @Column(name = "balance", nullable = false, precision = 10, scale = 2)
+    private BigDecimal balance;
 
 
     public User() {
     }
 
-    public User(Integer id, String userName, String passWord, String address) {
+    public User(Integer id, String userName, String passWord, String address, BigDecimal balance) {
         this.id = id;
         this.userName = userName;
         this.passWord = passWord;
         this.address = address;
+        this.balance = balance;
     }
 
     /**
@@ -92,7 +102,23 @@ public class User implements Serializable {
         this.address = address;
     }
 
+    /**
+     * 获取
+     * @return balance
+     */
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    /**
+     * 设置
+     * @param balance
+     */
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
+
     public String toString() {
-        return "User{id = " + id + ", userName = " + userName + ", passWord = " + passWord + ", address = " + address + "}";
+        return "User{id = " + id + ", userName = " + userName + ", passWord = " + passWord + ", address = " + address + ", balance = " + balance + "}";
     }
 }

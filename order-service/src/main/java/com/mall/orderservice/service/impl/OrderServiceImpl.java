@@ -64,7 +64,10 @@ public class OrderServiceImpl implements OrderService {
                 return 0;
             }
         }
-        User user = userClient.getUserById(userId);
+        User user = userClient.getUserById(userId).getData();
+
+        System.out.println("User: " + user);
+
 
         Order  order = new Order();
         order.setUserId(userId);
@@ -110,6 +113,8 @@ public class OrderServiceImpl implements OrderService {
         return 0;
     }
 
+
+    //after 10 min
     @Override
     public void checkAndUpdateOrderPaymentStatus(Integer orderId) {
         Order order = orderDao.getOrderById(orderId);
@@ -118,10 +123,37 @@ public class OrderServiceImpl implements OrderService {
             order.setPaymentStatus("unpaid");
             order.setUpdatedAt(LocalDateTime.now());
             orderDao.updateOrderStatus(order);
+            List<OrderItem> orderItems = orderDao.getOrderItemsByOrderId(orderId);
+
+            System.out.println("Order closed. Updating stock for order items: " + orderItems);
+            for(OrderItem orderItem: orderItems){
+                productClient.updateStock(orderItem.getProductId(), orderItem.getQuantity());
+            }
+
         } else if (order != null && "paid".equals(order.getPaymentStatus())) {
             // If already paid, do nothing.
             System.out.println("Order already paid. No action needed.");
         }
+    }
+
+
+    //payment success
+    @Override
+    public void updateOrderStatus(Integer orderId) {
+        Order order = new Order();
+        order.setId(orderId);
+        order.setOrderStatus("paid");
+        order.setPaymentStatus("paid");
+        order.setUpdatedAt(LocalDateTime.now());
+        orderDao.updateOrderStatus(order);
+
+    }
+
+
+
+    @Override
+    public Order getOrderById(Integer orderId) {
+        return orderDao.getOrderById(orderId);
     }
 
 

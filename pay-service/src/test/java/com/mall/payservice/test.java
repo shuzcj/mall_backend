@@ -34,4 +34,11 @@ public class test {
         System.out.println(result);
 
     }
+
+
+    @Test
+    public void processTest(){
+        payService.processPayment(19,8);
+    }
+
 }

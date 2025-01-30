@@ -2,13 +2,11 @@ package com.mall.payservice.controller;
 
 
 import com.mall.common.domain.entity.Payment;
+import com.mall.common.domain.vo.ApiResponse;
 import com.mall.payservice.service.PayService;
 import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/pay")
@@ -26,5 +24,17 @@ public class PayController {
 
         return paymentId;
     }
+
+    @PostMapping("/process")
+    public ApiResponse<String> processPayment(
+            @RequestHeader(value = "user-info", required = false) Long userId,
+            @RequestBody Integer orderId){
+
+
+
+
+        return ApiResponse.success("Payment processed successfully");
+    }
+
 
 }

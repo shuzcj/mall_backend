@@ -32,7 +32,7 @@ public class DeadLetterExchangeMqConfig {
         return QueueBuilder.durable("delay.queue")
                 .withArgument("x-dead-letter-exchange", "dlx.exchange")
                 .withArgument("x-dead-letter-routing-key", "deadLetter")
-                .withArgument("x-message-ttl", 15000)
+                .withArgument("x-message-ttl", 60000)
                 .build();
     }
 
