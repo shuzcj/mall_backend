@@ -19,7 +19,7 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping()
-    public ApiResponse<String> addProductRequest(AddProductRequest addProductRequest) {
+    public ApiResponse<String> addProductRequest(@RequestBody AddProductRequest addProductRequest) {
         System.out.println("addProductRequest: "+addProductRequest);
         productService.addProduct(addProductRequest);
         return ApiResponse.success("");

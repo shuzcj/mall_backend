@@ -1,10 +1,12 @@
 package com.mall.orderservice.service.impl;
 
+import com.mall.api.client.PayClient;
 import com.mall.api.client.ProductClient;
 import com.mall.api.client.UserClient;
 import com.mall.common.domain.dto.StockUpdateResponse;
 import com.mall.common.domain.entity.Order;
 import com.mall.common.domain.entity.OrderItem;
+import com.mall.common.domain.entity.Payment;
 import com.mall.common.domain.entity.User;
 import com.mall.orderservice.dao.OrderDao;
 import com.mall.orderservice.domain.SimpleOrderItem;
@@ -29,6 +31,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private UserClient userClient;
+
+    @Autowired
+    private PayClient payClient;
 
     @Autowired
     private OrderDao orderDao;
@@ -77,6 +82,20 @@ public class OrderServiceImpl implements OrderService {
             orderItem.setOrderId(order.getId());
             orderDao.insertOrderItem(orderItem);
         }
+
+        Payment payment = new Payment();
+        payment.setAmount(totalPrice);
+        payment.setOrderId(order.getId());
+        payment.setUserId(userId);
+        payment.setCreatedAt(now);
+        payment.setUpdatedAt(now);
+        payment.setStatus("pending payment");
+        payment.setPaymentDate(null);
+
+        System.out.println("Creating payment111: " + payment);
+
+        payClient.createPayment(payment);
+
 
         System.out.println("Order created: " + order);
 
