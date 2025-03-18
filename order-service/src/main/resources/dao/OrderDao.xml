@@ -17,6 +17,7 @@
         VALUES (#{orderId}, #{productId}, #{quantity}, #{pricePerUnit}, #{subtotal})
     </insert>
 
+
     <select id="getOrderById" parameterType="int" resultType="com.mall.common.domain.entity.Order">
         SELECT * FROM orders WHERE id = #{id}
     </select>
@@ -29,4 +30,27 @@
     <select id="getOrderItemsByOrderId" parameterType="int" resultType="com.mall.common.domain.entity.OrderItem">
         SELECT * FROM order_items WHERE order_id = #{orderId}
     </select>
+
+
+
+    <select id="getVoucherStock" resultType="java.lang.Integer">
+        SELECT stock FROM vouchers WHERE id = #{voucherId}
+    </select>
+
+
+    <update id="decrementVoucherStock">
+        UPDATE vouchers SET stock = stock - 1 WHERE id = #{voucherId} AND stock > 0
+    </update>
+
+
+    <insert id="insertVoucherOrder">
+        INSERT INTO voucher_orders (id, voucher_id, user_id, order_status, total_amount, payment_status, created_at, updated_at)
+        VALUES (#{id}, #{voucherId}, #{userId}, #{orderStatus}, #{totalAmount}, #{paymentStatus}, NOW(), NOW());
+    </insert>
+
+    <select id="selectVoucherOrderCountByUserIdAndVoucherId" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM voucher_orders WHERE user_id = #{userId} AND voucher_id = #{voucherId}
+    </select>
+
+
 </mapper>
