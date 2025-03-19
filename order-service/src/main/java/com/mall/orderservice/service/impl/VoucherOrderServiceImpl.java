@@ -1,18 +1,27 @@
 package com.mall.orderservice.service.impl;
 
 
+
 import com.mall.common.domain.entity.VoucherOrder;
 import com.mall.orderservice.dao.OrderDao;
 import com.mall.orderservice.service.VoucherOrderService;
+
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.ReactiveRedisOperations;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Random;
 
 @Service
 public class VoucherOrderServiceImpl implements VoucherOrderService {
@@ -20,6 +29,8 @@ public class VoucherOrderServiceImpl implements VoucherOrderService {
     @Autowired
     private StringRedisTemplate redisTemplate;
 
+    @Autowired
+    private RedissonClient redissonClient;
 
     @Autowired
     private OrderDao orderDao;
@@ -35,6 +46,74 @@ public class VoucherOrderServiceImpl implements VoucherOrderService {
 
             return voucherOrderService.cvo1(userId, voucherId);
         }
+    }
+
+    @Override
+    public VoucherOrder createVoucherOrder_redisson(int userId, int voucherId) {
+
+        userId = new Random().nextInt(1000) + 1;
+
+        RLock lock= redissonClient.getLock("voucher_order_lock_" + userId);
+
+        boolean locked=lock.tryLock();
+        if(!locked){
+            //System.out.println("get lock failed!"+Thread.currentThread().getName());
+            return null;
+        }
+//        System.out.println("get lock!"+Thread.currentThread().getName());
+//        System.out.println(lock.getName());
+//        System.out.println("!");
+
+        try {
+
+            VoucherOrderServiceImpl voucherOrderService = (VoucherOrderServiceImpl) AopContext.currentProxy();
+            //这个是获取代理对象，因为我们这个方法是transactional,直接调用就是this，会导致事务失效，所以我们要获取代理对象
+
+            return voucherOrderService.cvo1(userId, voucherId);
+        }finally {
+            lock.unlock();
+        }
+    }
+
+    private static final DefaultRedisScript<Long> SECKILL_SCRIPT;
+    static {
+        SECKILL_SCRIPT = new DefaultRedisScript<>();
+        try {
+            SECKILL_SCRIPT.setLocation(new ClassPathResource("voucher.lua"));
+            System.out.println("Lua 脚本加载成功！");
+        } catch (Exception e) {
+            System.out.println("Lua 脚本加载失败：" + e.getMessage());
+        }
+
+        SECKILL_SCRIPT.setResultType(Long.class); // 返回Long类型
+    }
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+    @Override
+    public int createVoucherOrder_lua(int userId, int voucherId) {
+        userId = new Random().nextInt(1000) + 1;
+        Long result = redisTemplate.execute(
+                SECKILL_SCRIPT,
+                Collections.emptyList(),  // 没有 keys，传空列表
+                ((Integer)voucherId).toString(),     // 代金券 ID
+                ((Integer)userId).toString()         // 用户 ID（这里是修正部分）
+        );
+        System.out.println(result);
+        if(result==0){
+            VoucherOrder voucherOrder = new VoucherOrder();
+            voucherOrder.setUserId(userId);
+            voucherOrder.setVoucherId(voucherId);
+            // 队列名称
+            String queueName = "voucher";
+            // 消息
+
+            // 发送消息
+            rabbitTemplate.convertAndSend(queueName,voucherOrder);
+        }
+        return result.intValue();
+
     }
 
     @Transactional
@@ -78,6 +157,12 @@ public class VoucherOrderServiceImpl implements VoucherOrderService {
         return order;
 
 
+    }
+
+    @Override
+    public void insertVoucherInRedis(int voucherId, int stock) {
+        String key = "voucher_stock_" + voucherId;
+        redisTemplate.opsForValue().set(key, String.valueOf(stock));
     }
 
 

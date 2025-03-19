@@ -1,0 +1,26 @@
+-- 1. 获取参数
+local voucherId = ARGV[1]  -- 代金券 ID
+local userId = ARGV[2]      -- 用户 ID
+
+-- 2. 构造 Redis Key
+local stockKey = 'voucher_stock_' .. voucherId  -- 库存 Key
+local orderKey = 'voucher_order_' .. voucherId  -- 订单 Key
+
+-- 3. 检查库存
+if tonumber(redis.call('get', stockKey)) <= 0 then
+    return 1  -- 库存不足
+end
+
+-- 4. 检查用户是否已下单（防止重复购买）
+if redis.call('sismember', orderKey, userId) == 1 then
+    return 2  -- 已下单，返回 2
+end
+
+-- 5. 扣减库存
+redis.call('incrby', stockKey, -1)
+
+-- 6. 记录用户下单
+redis.call('sadd', orderKey, userId)
+
+-- 7. 返回 0 表示成功
+return 0

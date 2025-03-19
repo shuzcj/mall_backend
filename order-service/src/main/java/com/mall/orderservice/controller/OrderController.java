@@ -33,14 +33,26 @@ public class OrderController {
 
     @PostMapping("/voucherOrder")
     public ResponseEntity createVoucherOrder(@RequestBody VoucherOrderRequest voucherOrderRequest) {
-        System.out.println("Creating voucher order for voucher ID: " + voucherOrderRequest.getVoucherId()
-                + " and user ID: " + voucherOrderRequest.getUserId());
 
-        VoucherOrder voucherOrder = voucherOrderService.createVoucherOrder1(voucherOrderRequest.getUserId(), voucherOrderRequest.getVoucherId());
+
+        VoucherOrder voucherOrder = voucherOrderService.createVoucherOrder_redisson(voucherOrderRequest.getUserId(), voucherOrderRequest.getVoucherId());
         if(voucherOrder != null) {
             return ResponseEntity.ok().build();
 
         }
         return  ResponseEntity.badRequest().build();
     }
+
+    @PostMapping("/voucherOrderLua")
+    public ResponseEntity createVoucherOrderLua(@RequestBody VoucherOrderRequest voucherOrderRequest) {
+
+
+        int r = voucherOrderService.createVoucherOrder_lua(voucherOrderRequest.getUserId(), voucherOrderRequest.getVoucherId());
+        if(r==0) {
+            return ResponseEntity.ok().build();
+
+        }
+        return  ResponseEntity.badRequest().build();
+    }
 }
+//模拟1000个用户总共1w次请求抢同一类型优惠券500张，一人一单
