@@ -17,19 +17,19 @@ public class MqConfig {
         return jackson2JsonMessageConverter;
     }
 
-    @Bean
+    @Bean(name = "queue1")
     Queue queue() {
         //System.out.println("Creating durable queue: test.q3");
         return new Queue("test.q3", true); // true for making the queue durable
     }
 
-    @Bean
+    @Bean(name = "exchange1")
     DirectExchange exchange() {
         //System.out.println("Creating direct exchange: test.direct1");
         return ExchangeBuilder.directExchange("test.direct1").build();
     }
 
-    @Bean
+    @Bean(name = "binding1")
     Binding binding(Queue queue, DirectExchange exchange) {
         System.out.println("Binding queue test.q3 to exchange test.direct1 with routing key red and yellow");
         return BindingBuilder.bind(queue).to(exchange).with("redddddd");

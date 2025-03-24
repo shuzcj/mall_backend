@@ -20,4 +20,7 @@ public interface ProductDao {
     Integer deductStock(@Param("productId") Integer productId, @Param("stock") Integer stock);
     Integer addStock(@Param("productId") Integer productId, @Param("stock") Integer stock);
 
+    int updateProduct(Product product);
+
+    List<Product> getAllProducts();
 }

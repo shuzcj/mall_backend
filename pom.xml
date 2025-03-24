@@ -28,6 +28,7 @@
         <module>product-service</module>
         <module>order-service</module>
         <module>pay-service</module>
+        <module>a_tempp</module>
 
     </modules>
 

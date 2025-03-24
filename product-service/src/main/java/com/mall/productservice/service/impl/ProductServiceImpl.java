@@ -1,6 +1,9 @@
 package com.mall.productservice.service.impl;
 
 import cn.hutool.core.lang.UUID;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mall.common.domain.dto.StockUpdateResponse;
 import com.mall.common.domain.entity.Product;
 import com.mall.productservice.dao.ProductDao;
@@ -8,7 +11,10 @@ import com.mall.productservice.domain.dto.AddProductRequest;
 import com.mall.productservice.domain.dto.StorePageProductQueryParams;
 import com.mall.productservice.domain.dto.StorePageProductResponse;
 import com.mall.productservice.service.ProductService;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,6 +23,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -94,10 +101,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product getProductById(Integer productId) {
-
-        return productDao.getProductById(productId);
+    public List<Product>getAllProducts(){
+        return productDao.getAllProducts();
     }
+
 
     @Override
     public StockUpdateResponse updateStock(Integer productId, Integer stock) {
@@ -126,6 +133,126 @@ public class ProductServiceImpl implements ProductService {
             return new StockUpdateResponse(true, BigDecimal.ZERO); // No monetary value involved in adding stock
         }
     }
+
+
+
+
+
+
+
+
+
+
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+
+    @Autowired
+    private RedissonClient redissonClient;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
+    private BloomFilterService bloomFilterService;
+
+    @Override
+    public Product getProductById(Integer productId) {
+
+        // 使用布隆过滤器防止缓存穿透
+        if (!bloomFilterService.mightContain(productId.toString())) {
+            System.out.println("布隆过滤器拦截了一个不存在的商品 ID: " + productId);
+            return null;
+        }
+
+        String cacheKey = "product:productInfo:" + productId;
+        String lockKey = "product:lock:" + productId;
+
+        System.out.println("尝试redis获取"+productId);
+        // 1. 查询缓存
+        String cachedJson = redisTemplate.opsForValue().get(cacheKey);
+        if (cachedJson != null) {
+            try {
+                return objectMapper.readValue(cachedJson, Product.class);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException("缓存解析失败", e);
+            }
+        }
+        System.out.println("redis未命中"+productId);
+        // 2. 未命中，尝试加锁回源
+        RLock lock = redissonClient.getLock(lockKey);
+        lock.lock(); // 阻塞式获取锁
+        System.out.println("获取到锁"+productId+"，开始回源"+lock);
+        try {
+            // 双检缓存
+            cachedJson = redisTemplate.opsForValue().get(cacheKey);
+            if (cachedJson != null) {
+                return objectMapper.readValue(cachedJson, Product.class);
+            }
+
+            // 查询数据库
+            Product product = productDao.getProductById(productId);
+            if (product != null) {
+                // 加随机过期时间，防雪崩
+                int baseTtl = 300;
+                int randomTtl = new Random().nextInt(300);
+                String json = objectMapper.writeValueAsString(product);
+                redisTemplate.opsForValue().set(cacheKey, json, baseTtl + randomTtl, TimeUnit.SECONDS);
+            }
+
+            return product;
+
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("缓存序列化失败", e);
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public void updateProduct(Product product) {
+        Integer productId = product.getId();
+        String lockKey = "product:lock:" + productId;
+        String cacheKey = "product:productInfo:" + productId;
+
+        RLock lock = redissonClient.getLock(lockKey);
+        System.out.println("update尝试获取锁"+productId);
+        lock.lock(); // 阻塞式获取锁
+        try {
+            System.out.println("update获取到锁"+productId+"，开始"+lock);
+            // 1. 更新数据库
+            productDao.updateProduct(product);
+
+            // 2. 删除缓存
+            redisTemplate.delete(cacheKey);
+
+        } finally {
+            // 3. 释放锁
+            lock.unlock();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

@@ -26,7 +26,7 @@ public class ProductController {
     }
 
     @GetMapping()
-    public ApiResponse<StorePageProductResponse> getProduct(StorePageProductQueryParams storePageProductQueryParams) {
+    public ApiResponse<StorePageProductResponse> getStorePageProduct(StorePageProductQueryParams storePageProductQueryParams) {
         System.out.println("storePageProductQueryParams: "+storePageProductQueryParams);
         StorePageProductResponse storePageProductResponse = productService.getProductsInStore(storePageProductQueryParams);
 
@@ -40,6 +40,14 @@ public class ProductController {
         Product product = productService.getProductById(productId);
 
         return ApiResponse.success(product);
+    }
+
+    @PutMapping("/{productId}")
+    public ApiResponse<String> updateProduct(@PathVariable Integer productId, @RequestBody AddProductRequest addProductRequest) {
+        System.out.println("Updating product with ID: " + productId);
+        //productService.updateProduct(productId, addProductRequest);
+
+        return ApiResponse.success("");
     }
 
     @PostMapping("updateStock")

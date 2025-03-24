@@ -71,10 +71,31 @@
         WHERE id = #{productId}
     </update>
 
+
     <!-- SQL to check current stock -->
     <select id="checkStock" resultType="int">
         SELECT stock FROM products WHERE id = #{productId}
     </select>
+
+
+    <select id="getAllProducts" resultType="com.mall.common.domain.entity.Product">
+        select * from  products
+
+    </select>
+
+
+    <update id="updateProduct" parameterType="com.mall.common.domain.entity.Product">
+        UPDATE products
+        <set>
+            <if test="name != null"> name = #{name}, </if>
+            <if test="price != null"> price = #{price}, </if>
+            <if test="stock != null"> stock = #{stock}, </if>
+            <if test="status != null"> status = #{status}, </if>
+            <if test="description != null"> description = #{description}, </if>
+            updated_at = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
 
 </mapper>
 
