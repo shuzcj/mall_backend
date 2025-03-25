@@ -1,15 +1,18 @@
-package com.mall.common.domain.entity;
+package com.mall.productservice.domain.dto;
+
 
 import cn.hutool.core.date.DateTime;
 
 import javax.persistence.*;
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 
 @Entity
 @Table(name = "products")
-public class Product {
+public class Product1 {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,11 +46,11 @@ public class Product {
     private String status;
 
 
-    @Column(name = "created_at", nullable = true, columnDefinition = "datetime default CURRENT_TIMESTAMP")
-    private LocalDateTime createdAt=null;
+    @Column(name = "created_at", nullable = true,  columnDefinition = "datetime default CURRENT_TIMESTAMP")
+    private String createdAt=null;
 
     @Column(name = "updated_at", nullable = true, columnDefinition = "datetime default CURRENT_TIMESTAMP")
-    private LocalDateTime updatedAt=null;
+    private String updatedAt=null;
 
     @Column(name = "user_id", nullable = false)
     private Integer userId;
@@ -56,10 +59,10 @@ public class Product {
     private String description;
 
 
-    public Product() {
+    public Product1() {
     }
 
-    public Product(Integer id, String name, BigDecimal price, Double rating, Integer stock, String imageUrls, Integer categoryId, String brand, Integer sold, String status, LocalDateTime createdAt, LocalDateTime updatedAt, Integer userId, String description) {
+    public Product1(Integer id, String name, BigDecimal price, Double rating, Integer stock, String imageUrls, Integer categoryId, String brand, Integer sold, String status, String createdAt, String updatedAt, Integer userId, String description) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -240,7 +243,7 @@ public class Product {
      * 获取
      * @return createdAt
      */
-    public LocalDateTime getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
@@ -248,7 +251,7 @@ public class Product {
      * 设置
      * @param createdAt
      */
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -256,7 +259,7 @@ public class Product {
      * 获取
      * @return updatedAt
      */
-    public LocalDateTime getUpdatedAt() {
+    public String getUpdatedAt() {
         return updatedAt;
     }
 
@@ -264,7 +267,7 @@ public class Product {
      * 设置
      * @param updatedAt
      */
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
     }
 

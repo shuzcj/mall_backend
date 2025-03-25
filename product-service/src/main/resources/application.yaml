@@ -3,6 +3,8 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
-
+canal:
+  server: 127.0.0.1:11111
+  destination: 1  # canal实例名
 server:
   port: 8084
